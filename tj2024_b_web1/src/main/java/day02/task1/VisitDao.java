@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class VisitDao {
 	private Connection conn;
-	// + 싱글톤 
+	// + 싱글톤
 	private static VisitDao instance = new VisitDao();
 	private VisitDao() {
 		try {
@@ -20,7 +20,7 @@ public class VisitDao {
 					"root" , "1234");
 		}catch( Exception e ) { System.out.println(e); }
 		
-	}
+	} // f end
 	public static VisitDao getInstance() { return instance; }
 	
 	// 1. 방문록 등록 SQL 
