@@ -18,18 +18,51 @@ console.log({"속성명1" : 3 , "속성명" : `안녕5`});	// object {}
 //2. JS 함수
 // (1) 선언적 함수 : function 함수명( 매개변수명 , 매개변수명){실행문;}
 function func1(a , b){ // 함수 정의 / 만들기
+	console.log(`func1 excute`)
 	let c = a + b;
 	return c;
 }
-func1(3 ,4);		//함수 호출
+let result = func1(3 ,4);		//함수 호출
+console.log(result);			// 7
 
 // (2) 익명 함수 : function(매개변수명 , 매개변수명){실행문;}
 const func2 = function(a,b){ // 함수 정의 / 만들기
+	console.log(`func2 excute`)
 	let c = a + b;
 	return c;
 }
-func2(3,4);			//함수 호출
+let result2 = func2(5,1);			//함수 호출
+console.log(result2);				// 6
 
 // (3) 람다식 (화살표) 함수  :( 매개변수명 , 매개변수명 ) => {실행문;}
-const func3 = (a,b) => { c = a + b; return c;} // 함수 정의 / 만들기
-func3(3,4);			//함수 호출
+const func3 = (a,b) => { console.log(`func3 excute`)  // 함수 정의 / 만들기
+	c = a + b;
+	return c;
+}
+let result3 = func3(10,7);			//함수 호출
+console.log(result3);				// 17
+
+//3. 람다식 함수의 활용처
+const words = [`사과`,`수박`,`자두`,`참외`]
+// ex) 배열내 모든 요소 값들을 하나씩 출력하시오.
+// (1) 일반 for 문
+for(let i = 0; i <= words.length-1; i++){
+	console.log(words[i]);
+}
+
+// (2) forEach 문 = forEach((반복변수명) => {실행문}) 함수
+	// 배열내 모든 요소들을 하나씩 반복변수명에 대입 반복실행
+words.forEach((word) =>{console.log(word)});
+
+// (3) 배열변수명.map((반복변수명)=>{실행문}) 함수
+// 배열내 모든 요소들을 하나씩 반복변수명에 대입 반복실행
+words.map((word) => {console.log(word)});
+
+// *** forEach 와 map 함수의 차이점
+	// forEach = return이 없다.
+	// map = return을 지원한다.
+let newWords1 = words.forEach((e) => {return e;});
+console.log(newWords1);	// undefined
+
+let newWords2 = words.map((q) => {return q;});
+console.log(newWords2); // [`사과`,`수박`,`자두`,`참외`]

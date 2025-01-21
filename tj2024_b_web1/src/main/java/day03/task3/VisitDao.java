@@ -7,22 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.mysql.cj.protocol.Resultset;
-
 public class VisitDao {
 	private Connection conn;
 	// + 싱글톤 
 	private static VisitDao instance = new VisitDao();
 	private VisitDao() {
 		try {
-			// DB연동 코드 : 
-			// 코드 작성전에 필수 : 프로젝트의 mysql-connector-j-9.1.0.jar
-			// 라이브러리 폴더 경로 : src -> main -> webapp -> web-inf -> lib 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/mydb0120",
 					"root" , "1234");
 		}catch( Exception e ) { System.out.println(e); }
+		
 	}
 	public static VisitDao getInstance() { return instance; }
 	
@@ -40,24 +36,23 @@ public class VisitDao {
 		return false;
 	} // f end 
 	
-	
-	// 2. 방문록 전체 조회 SQL
+	// 2. 방문록 전체 조회 SQL 
 	public ArrayList<VisitDto> findAll(){
-		ArrayList<VisitDto>list = new ArrayList<VisitDto>();
+		ArrayList<VisitDto> list = new ArrayList<VisitDto>();
 		try {
 			String sql = "select * from visit";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql );
 			ResultSet rs = ps.executeQuery();
-			while( rs.next()) {
+			while( rs.next() ) {
 				VisitDto visitDto = new VisitDto();
-				visitDto.setNum(rs.getInt("num"));
-				visitDto.setContent(rs.getString("content"));
-				visitDto.setAge(rs.getInt("age"));
+				visitDto.setNum( rs.getInt("num") );
+				visitDto.setContent( rs.getString("content"));
+				visitDto.setAge( rs.getInt("age") );
 				list.add(visitDto);
 			}
-		}catch(SQLException e) {System.out.println(e);}
+		}catch( SQLException e) { System.out.println(e);}
 		return list;
-	}
+	} // f end 
 	
 	// 3. 방문록 수정 SQL
 	public boolean update( VisitDto visitDto ) {
@@ -74,6 +69,7 @@ public class VisitDao {
 		}catch( SQLException e ) { System.out.println(e);}
 		return false;
 	} // f end 
+	
 	
 	// 4. 방문록 삭제 SQL 
 	public boolean delete( int num ) {

@@ -16,7 +16,6 @@ public class VisitController extends HttpServlet {
 	@Override
 	// HTTP POST BODY : http://localhost:8080/tj2024b_web1/day03/visit
 	// content-type : application/json , body : { "content" : "안녕! 방문록 남기고 갑니다." , "age" : "40"  }
-	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 1. BODY(본문)의 JSON를 DTO로 파싱/변환 하기 위한 인스턴스 생성/준비
 		ObjectMapper mapper = new ObjectMapper();

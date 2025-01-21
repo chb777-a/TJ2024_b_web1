@@ -1,38 +1,47 @@
 package day03.task4;
 
 public class WaitingDto {
-	private String name;
-	private int people;
-	private String phone;
-	public WaitingDto() {}
-	public WaitingDto(String name, int num, String phone) {
-		super();
-		this.name = name;
-		this.people = num;
-		this.phone = phone;
-	}
+	private int num;
+	private String tel;
+	private int count;
 	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public int getNum() {
-		return people;
-	}
-	public void setNum(int num) {
-		this.people = num;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	@Override
-	public String toString() {
-		return "WaitingDto [name=" + name + ", num=" + people + ", phone=" + phone + "]";
+	public WaitingDto () {}
+
+	public WaitingDto(int num, String tel, int count) {
+		super();
+		this.num = num;
+		this.tel = tel;
+		this.count = count;
 	}
 
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	@Override
+	public String toString() {
+		return "WaitingDto [num=" + num + ", tel=" + tel + ", count=" + count + "]";
+	}
+	
+	
 }
