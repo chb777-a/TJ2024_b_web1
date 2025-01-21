@@ -63,7 +63,6 @@ public class WaitingController extends HttpServlet{
 		boolean result = WaitingDao.getInstance().delete(num);
 		
 		resp.setContentType("application/json");
-		resp.getWriter().print(result)
-		;
+		resp.getWriter().print(result);
 	}
 }
