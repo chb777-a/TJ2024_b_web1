@@ -1,0 +1,8 @@
+[JSP]
+	1. 정의  : Java Server Page로 동적 페이지
+	2. 역할 : HTML과 JAVA 언어를 하나의 페이지 작성 가능.
+		-> 확장자 : .jsp
+		 -> MVC1패턴
+	3. 문법
+		1. 
+		 
