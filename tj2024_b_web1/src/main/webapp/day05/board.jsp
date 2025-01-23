@@ -11,7 +11,7 @@
 
         <div>
                 <h3> 게시물 전체 조회 : 커뮤니티를 제공합니다. </h3>
-                <a href="/tj2024b_web1/day05/write.jsp"> 글쓰기 </a>
+                <a href="/tj2024_b_web1/day05/write.jsp"> 글쓰기 </a>
                 
                 <table border="1">
                         <thead>

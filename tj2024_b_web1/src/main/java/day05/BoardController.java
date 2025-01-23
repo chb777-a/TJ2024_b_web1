@@ -12,37 +12,55 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/day05/board")
-public class BoardController extends HttpServlet{
+public class BoardController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println(" POST OK ");
+		// 1. HTTP BODY 로 요청된 데이터들을 JSON --> DTO로 변환 
 		ObjectMapper mapper = new ObjectMapper();
-		BoardDto boardDto = mapper.readValue(req.getReader(), BoardDto.class);
-		
-		boolean result = BoardDao.getInstance().add(boardDto);
-		
+		BoardDto boardDto =  mapper.readValue( req.getReader() , BoardDto.class );
+		// 2. DAO 처리 
+		boolean result = BoardDao.getInstance().boardWrite( boardDto );
+		// 3. 결과 응답
 		resp.setContentType("application/json");
-		resp.getWriter().print(result);
-	}
-	
+		resp.getWriter().print( result );
+	} // class end 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println(" GET OK");
+		// 1.  X
+		// 2. DAO 처리 
 		ArrayList<BoardDto> result = BoardDao.getInstance().findAll();
-			ObjectMapper mapper = new ObjectMapper();
-			String jsonResult = mapper.writeValueAsString(result);
-		
+		// 3. 결과 응답 
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonResult  = mapper.writeValueAsString( result );
 		resp.setContentType("application/json");
-		resp.getWriter().print(jsonResult);
+		resp.getWriter().print( jsonResult );
+		
 	}
-	
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doDelete(req, resp);
-	}
-	
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPut(req, resp);
+		System.out.println(" PUT OK");
+		// 1. HTTP 요청의 BODY 본문을 DTO 로 변환
+		// 2. Dao 처리 요청
+		// 3. 결과 HTTP 응답
 	}
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println(" DELETE OK ");
+		// 1. HTTP 요청의 쿼리스트링 매개변수 가져오기
+			//req.getParameter("bno"); : 쿼리스트링의 bno 이라는 매개변수 값 반환
+			//Integer.parseInt(문자열); : 문자열 타입 --> 정수타입
+		int bno = Integer.parseInt(req.getParameter("bno"));
+		// 2. Dao 처리
+			//Dao 로부터 매개변수를 전달하고 SQL 처리 결과를 받기
+		boolean result = BoardDao.getInstance().delete(bno);
+		// 3. 결과를 HTTP 응답하기
+			// HTTP 응답할 content-type 설정
+			// HTTP 응답 자료를 보내기
+		resp.setContentType("application/json");
+		resp.getWriter().print(result);
+		
+	}
+	
 }

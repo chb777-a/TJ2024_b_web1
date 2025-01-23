@@ -11,7 +11,7 @@
 		<h3> header 페이지 </h3>
 		<ul>
 			<li> <a href="/tj2024_b_web1/day05/index.jsp"> boardService </a>
-			<li> <a href="#"> 게시판 </a>
+			<li> <a href="/tj2024_b_web1/day05/board.jsp"> 게시판 </a>
 		</ul>
 	</div>
 </body>
