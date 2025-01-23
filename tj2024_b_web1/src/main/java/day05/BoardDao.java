@@ -94,4 +94,20 @@ public class BoardDao {
 		}catch(Exception e) {System.out.println(e);}
 		return false;
 	}
+	
+	// [6] 게시물 수정
+	public boolean update(BoardDto boardDto) {
+		try {
+			String sql = "update board set btitle=? , bcontent=? where bno = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, boardDto.getBtitle());
+			ps.setString(2, boardDto.getBcontent());
+			ps.setInt(3, boardDto.getBno());
+			int count = ps.executeUpdate();
+			if(count == 1)return true;
+			
+		}catch(Exception e) {System.out.println(e);}
+		return false;
+	}
+	
 } // class end 
