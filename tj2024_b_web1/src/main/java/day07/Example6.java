@@ -7,10 +7,12 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@WebServlet("/day07/example6")
 public class Example6 extends HttpServlet{
 	 private Set<Integer> set = new HashSet<>();
 	
