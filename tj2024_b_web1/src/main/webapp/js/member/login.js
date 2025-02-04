@@ -17,9 +17,10 @@ const onLogin = ( ) => {
 		method : 'POST' , // - 요청할 http method 선택 
 		headers : { 'Content-Type' : 'application/json'}, // - 요청할 http body 타입 설정 
 		body : JSON.stringify( obj ) // - 요청할 http 자료 , 자료를 JSON형식의 문자열 타입 으로 변환 
+		
 	}
 	// * fetch 
-	fetch( '/tj2024b_web1/member/login' , option )
+	fetch( '/tj2024_b_web1/member/login' , option )
 		.then( response => response.json() )
 		.then( data => { 
 			if( data > 0 ){ alert('로그인성공'); location.href="../index.jsp"; } // ../ 상위 폴더로 이동 뜻 
