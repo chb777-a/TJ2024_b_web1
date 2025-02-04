@@ -1,0 +1,22 @@
+console.log(`info.js open`);
+
+// [1] 현재 로그인된 회원정보 요청 함수
+const getMyInfo = () => {
+	// fetch 옵션
+	const option = {method : `GET`}
+	// fetch 실행
+	fetch(`/tj2024_b_web1/member/login` , option)
+		.then(r => r.json())
+		.then(data => {
+			if(data != null){ // 로그인 상태이면
+				// 특정한 dom에 정보 대입하기
+				document.querySelector('.mid').value = data.mid
+				document.querySelector('mname').value = data.mname
+				document.querySelector('.mphone').value = data.mphone
+				// *** img 마크업에 이미지 경로 대입하는 방법 .src 속성 이용
+				document.querySelector('.mimg').src = `/tj2024_b_web1/upload/${data.mimg}`
+			}
+		})
+		.catch(e => {console.log(e)})
+}
+getLoginInfo(); // js가 실행될 때 최초 1번 실행
