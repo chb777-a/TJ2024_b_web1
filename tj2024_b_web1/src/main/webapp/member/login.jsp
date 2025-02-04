@@ -15,7 +15,7 @@
 	  	<!--  왼쪽 메시지 구역 -->
 	    <div class="col-lg-7 text-center text-lg-start">
 	      <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3"> 더조은 WEB LOGIN </h1>
-	      <p class="col-lg-10 fs-4"> 다양한 서비스를 제공 합니다. </p>
+	      <p class="col-lg-10 fs-4"> 안녕하세요~? 반갑습니다.</p>
 	    </div>
 	    
 	    <!-- 오른쪽 회원가입 입력 구역  -->
