@@ -22,6 +22,7 @@ const getLoginInfo = ( ) => {
                                                     <img class="header_profile" src="/tj2024_b_web1/upload/${ data.mimg }" /> ${ data.mid } 님 
                                                   </a>
                                                   <ul class="dropdown-menu">
+												  	 <li class="nav-item"> <a class="nav-link" href="#"> ${ data.mpoint} POINT </a> </li>
                                                      <li class="nav-item"> <a class="nav-link" href="/tj2024_b_web1/member/info.jsp">마이페이지</a> </li>
                                                      <li class="nav-item"> <a class="nav-link" href="#" onclick="onLogOut()">로그아웃</a> </li>
                                                   </ul>
@@ -41,8 +42,8 @@ const onLogOut = ( ) => {
                 .then( response =>  response.json() )
                 .then( data => {
                         if( data==true){ 
-                                alert('로그아웃합니다.'); 
-                                location.href="/tj2024_b_web1/member/login.jsp"; 
+                          alert('로그아웃합니다.'); 
+                          location.href="/tj2024_b_web1/member/login.jsp"; 
                         }
                 })
                 .catch( e => {console.log(e); })

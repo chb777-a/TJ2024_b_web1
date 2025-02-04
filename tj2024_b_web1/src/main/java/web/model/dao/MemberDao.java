@@ -3,10 +3,13 @@ package web.model.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import web.model.dto.MemberDto;
+import web.model.dto.PointDto;
 
 // @Getter // 클래스내 모든 멤버변수에 getter 적용.
 @NoArgsConstructor( access = lombok.AccessLevel.PRIVATE ) // 클래스내 디폴트생성자를 private 적용 
@@ -25,25 +28,31 @@ public class MemberDao extends Dao {
 	// @Getter 
 	// public static MemberDao getInstance() { return instance;} 
 	
-	// [1]. 회원가입 SQL 처리 메소드 
-	public boolean signup( MemberDto memberDto ) {
-		try {
-			// [1] SQL 작성한다.
-			String sql ="insert into member( mid , mpwd , mname , mphone , mimg ) values( ? , ? , ? , ? , ? )";
-			// [2] DB와 연동된 곳에 SQL 기재한다. 		
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString( 1 , memberDto.getMid() );
-			ps.setString( 2 , memberDto.getMpwd() );
-			ps.setString( 3 , memberDto.getMname() );
-			ps.setString( 4 , memberDto.getMphone() );
-			ps.setString( 5 , memberDto.getMimg() );
-			// [3] 기재된 SQL를 실행하고 결과를 받는다. . 	
-			int count = ps.executeUpdate();
-			// [4] 결과에 따른 처리 및 반환를 한다.
-			if( count == 1 ) { return true; }
-		}catch( SQLException e ) { System.out.println( e ); }
-		return false;
-	} // f end 
+    // [1]. 회원가입 SQL 처리 메소드 
+    public int signup( MemberDto memberDto ) {
+            try {
+                    // [1] SQL 작성한다.
+                    String sql ="insert into member( mid , mpwd , mname , mphone , mimg ) values( ? , ? , ? , ? , ? )";
+                    // [2] DB와 연동된 곳에 SQL 기재한다.                 
+                    PreparedStatement ps = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS );
+                    ps.setString( 1 , memberDto.getMid() );
+                    ps.setString( 2 , memberDto.getMpwd() );
+                    ps.setString( 3 , memberDto.getMname() );
+                    ps.setString( 4 , memberDto.getMphone() );
+                    ps.setString( 5 , memberDto.getMimg() );
+                    // [3] 기재된 SQL를 실행하고 결과를 받는다. .         
+                    int count = ps.executeUpdate();
+                    // [4] 결과에 따른 처리 및 반환를 한다.
+                    if( count == 1 ) { 
+                            ResultSet rs = ps.getGeneratedKeys(); // auto increment 생성키를 반환한다
+                            if( rs.next() ) {
+                                      int mno = rs.getInt( 1 );
+                                      return mno; // 회원가입 성공후 등록한 회원번호 반환 
+                            }
+                    }
+            }catch( SQLException e ) { System.out.println( e ); }
+            return 0; // 회원가입 실패시 0 반환
+    } // f end 
 	
 	// [2]. 로그인 SQL 처리 메소드
 	public int login( MemberDto memberDto ) {
@@ -118,6 +127,59 @@ public class MemberDao extends Dao {
 		}catch (SQLException e) {		System.out.println( e ); }
 		return false; // 수정 실패 했을때.
 	} // f end
+
+	// 현재 로그인된 회원의 '포인트 로그 전체 조회'  doGet vs '내정보조회' 컨트롤에서 포인트 로그 전체 조회를 부가하여 MemberDto에 같이 반환** 
+	// [6] 포인트(로그) 전체 조회 
+	public ArrayList<PointDto>getPointLog(int loginMno){
+		ArrayList<PointDto> list = new ArrayList<PointDto>();
+		try {
+			String sql = "select * from pointlog where mno=?"; // sql 작성
+			PreparedStatement ps = conn.prepareStatement(sql); // DB 연동된 곳에 sql 기재
+			ps.setInt(1, loginMno); // 기재된 sql에 매개변수 값을 대입
+			ResultSet rs = ps.executeQuery(); // 기재된 sql 실행하고 결과를 받음
+			while(rs.next()) {
+				PointDto pointDto = new PointDto();
+				pointDto.setPono( rs.getInt("pono") );
+                pointDto.setPocomment( rs.getString("pocomment") );
+                pointDto.setPocount( rs.getInt("pocount") );
+                pointDto.setPodate( rs.getString("podate") );
+                pointDto.setMno( rs.getInt("mno") );
+                list.add(pointDto);
+			}
+			
+		}catch(SQLException e) {System.out.println(e);}
+		return list;
+	}
+	
+	// 현재 로그인된 회원의 현재(남은)포인트 조회 doGet vs '내정보조회' 컨트롤에서 포인트조회를 부가하여 MemberDto에 같이 반환** 
+	// [7] 현재 남은 포인트 조회
+	public int getPoint(int loginMno) {
+		try {
+			String sql = "select sum(pocount) as mpoint from pointlog where mno=?"; // sql 작성
+			PreparedStatement ps = conn.prepareStatement(sql); // DB 연동된 곳에 sql 기재
+			ps.setInt(1, loginMno); // 기재된 sql에 매개변수 값을 대입
+			ResultSet rs = ps.executeQuery(); // 기재된 sql 실행하고 결과를 받음
+			if(rs.next()) {
+				return rs.getInt("mpoint");
+			}
+		}catch(SQLException e) {System.out.println(e);}
+		return -1;
+	}
+	
+	// '로그인' 컨트롤러 에서 포인트지급 처리 
+	// [8] 현재 남은 포인트 조회
+	public boolean setPoint(PointDto pointDto) {
+		try {
+			String sql = "insert into pointlog(pocomment, pocount, mno) values(?,?,?)"; // sql 작성
+			PreparedStatement ps = conn.prepareStatement(sql); // DB 연동된 곳에 sql 기재
+			ps.setString(1, pointDto.getPocomment());
+			ps.setInt(2, pointDto.getPocount());
+			ps.setInt(3, pointDto.getMno());
+			int count = ps.executeUpdate(); // 기재된 sql 실행하고 결과를 받음
+			if(count == 1) return true;
+		}catch(SQLException e) {System.out.println(e);}
+		return false;
+	}
 
 	
 } // class end 
