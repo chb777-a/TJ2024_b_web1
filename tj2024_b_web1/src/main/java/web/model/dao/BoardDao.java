@@ -37,7 +37,7 @@ public class BoardDao extends Dao{
 	}
 	
 	// [2] 전체 게시물 조회 메소드
-	public ArrayList<BoardDto> findAll(){
+	public ArrayList<BoardDto> findAll(int cno , int startRow , int display){
 		ArrayList<BoardDto> list = new ArrayList<BoardDto>();
 		try {
 			// 게시물 테이블의 모든 속성을 전체 조회 : select * from board;;
@@ -46,8 +46,13 @@ public class BoardDao extends Dao{
 			
 			// select * from 테이블 A inner join 테이블B on 테이블A.PK필드명 = 테이블B.FK필드명;
 			// 정렬 : order by 필드명 desc=내림차순 , asc=오름차순
-			String sql = " select * from board b inner join member m on b.mno = m.mno order by b.bno desc";
+			// String sql = " select * from board b inner join member m on b.mno = m.mno order by b.bno desc";
+			
+			String sql = " select * from board b inner join member m on b.mno = m.mno where b.cno = ? order by b.bno desc limit ? , ? ";
 			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, cno);
+			ps.setInt(2, startRow);
+			ps.setInt(3, display);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				BoardDto boardDto = new BoardDto();
