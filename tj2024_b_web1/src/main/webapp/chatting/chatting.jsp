@@ -10,14 +10,14 @@
 
 	<jsp:include page="/header.jsp"></jsp:include>
 	<div>
-		<div> </div>
-		<textarea ></textarea>
+		<div class="msgbox"> </div>
+		<textarea class="msginput"></textarea>
 		<button 
 			onclick="onMsgSend()" 
 			type="button"> 전송 </button>
 	</div>
 	
-	<script src="/tj2024b_web1/js/chatting/chatting.js"></script>
+	<script src="/tj2024_b_web1/js/chatting/chatting.js"></script>
 
 </body>
 </html>
