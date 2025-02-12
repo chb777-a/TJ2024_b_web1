@@ -70,22 +70,21 @@ public class SignUpController extends HttpServlet {
 		memberDto.setMimg(filename); // 업로된 파일명을 dto 넣기 
 		System.out.println( memberDto );
 		
-		// 12. 회원 가입시 포인트 지급
-		  int mno = MemberDao.getInstance().signup(memberDto);
-          boolean result = false;
-          if( mno > 0 ) {
-                  // * 회원성공시 포인트 지급 
-                  PointDto pointDto = new PointDto();
-                  pointDto.setMno( mno );
-                  pointDto.setPocomment("회원가입 축하");
-                  pointDto.setPocount( 100 );
-                  MemberDao.getInstance().setPoint( pointDto );
-                  result = true;
-          }
+		// 12.
+		int mno = MemberDao.getInstance().signup(memberDto);
+		boolean result = false;
+		if( mno > 0 ) {
+			// * 회원성공시 포인트 지급 
+			PointDto pointDto = new PointDto();
+			pointDto.setMno( mno );
+			pointDto.setPocomment("회원가입 축하");
+			pointDto.setPocount( 100 );
+			MemberDao.getInstance().setPoint( pointDto );
+			result = true;
+		}
 		// 13.
 		resp.setContentType("application/json");
 		resp.getWriter().print(result);
-		
 		}catch (Exception e) { System.out.println("업로드 실패 : " + e ); }
 		
 	} // f end 
